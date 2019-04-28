@@ -1,0 +1,44 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+variables:
+  buildConfiguration: 'Release'
+  framework: 'netcoreapp3.0'
+
+jobs:
+- job: Build each platform
+  strategy:
+    matrix:
+      Windows_x64:
+        rid: win-x64
+      Windows_x86:
+        rid: win-x86
+      Windows_arm:
+        rid: win-arm
+      Windows_arm64:
+        rid: win-arm64
+      Linux_x64:
+        rid: linux-x64
+      Linux_musl_x64:
+        rid: linux-musl-x64
+      Linux_arm:
+        rid: linux-arm
+      Linux_tizen:
+        rid: tizen
+      Linux_osx:
+        rid: osx-x64
+  steps:
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '3.0.100-preview-010184' # replace this value with the version that you need for your project
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'dotnet build $(buildConfiguration)'
+  - script: dotnet publish OffUploader.Console -c $(buildConfiguration) -f $(framework) -r $(rid)
+    displayName: 'dotnet publis OffUploader.Console $(buildConfiguration) $(rid)'
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: '$(framework)_$(rid)_$(buildConfiguration)'
+      targetPath: 'OffUploader.Console/bin/$(buildConfiguration)/$(framework)/$(rid)/publish'
