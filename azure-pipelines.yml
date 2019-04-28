@@ -3,44 +3,30 @@ trigger:
 
 pool:
   vmImage: 'Ubuntu-16.04'
+strategy:
+  matrix:
+    Windows_x64:
+      rid: 'win-x64'
+    Windows_x86:
+      rid: 'win-x86'
+    Windows_arm:
+      rid: 'win-arm'
+    Windows_arm64:
+      rid: 'win-arm64'
+    Linux_x64:
+      rid: 'linux-x64'
+    Linux_musl_x64:
+      rid: 'linux-musl-x64'
+    Linux_arm:
+      rid: 'linux-arm'
+    Linux_tizen:
+      rid: 'tizen'
+    Linux_osx:
+      rid: 'osx-x64'
 
-matrix:
-  Windows_x64:
-    rid: 'win-x64'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Windows_x86:
-    rid: 'win-x86'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Windows_arm:
-    rid: 'win-arm'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Windows_arm64:
-    rid: 'win-arm64'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Linux_x64:
-    rid: 'linux-x64'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Linux_musl_x64:
-    rid: 'linux-musl-x64'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Linux_arm:
-    rid: 'linux-arm'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Linux_tizen:
-    rid: 'tizen'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
-  Linux_osx:
-    rid: 'osx-x64'
-    buildConfiguration: 'Release'
-    framework: 'netcoreapp3.0'
+variables:
+  buildConfiguration: 'Release'
+  framework: 'netcoreapp3.0'
 
 steps:
   - task: DotNetCoreInstaller@0
