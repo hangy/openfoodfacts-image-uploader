@@ -5,6 +5,7 @@
     using OffUploader.Core.Logging;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO.Abstractions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -36,6 +37,8 @@
             var path = request.Path;
             var jpgs = this.fileSystem.Directory.GetJpegs(path);
             string? code = null;
+            log.Info("Reading barcodes from JPEGs in {Path}", path);
+            var stopwatch = Stopwatch.StartNew();
             foreach (var file in jpgs)
             {
                 var barcodes = await this.ReadBarcodesAsync(file, cancellationToken).ConfigureAwait(false);
@@ -50,10 +53,16 @@
                 }
             }
 
+            stopwatch.Stop();
+
             if (code == null)
             {
-                log.Warn("No good barcode found for any file.");
+                log.Warn("Barcodes read from JPEGs in {Path} in {Duration}. No good barcode found for any file.", path, stopwatch.Elapsed);
                 throw new InvalidOperationException("No barcode found in the images.");
+            }
+            else
+            {
+                log.Info("Barcodes read from JPEGs in {Path} in {Duration}. Code is {Code}.", path, stopwatch.Elapsed, code);
             }
 
             await this.mediator.Send(new UploadDirectoryRequest(request.Settings, code, path), cancellationToken).ConfigureAwait(false);
