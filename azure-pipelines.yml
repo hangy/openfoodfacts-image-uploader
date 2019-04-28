@@ -33,7 +33,7 @@ jobs:
   steps:
   - task: DotNetCoreInstaller@0
     inputs:
-      version: '3.0.100-preview-010184' # replace this value with the version that you need for your project
+      version: '3.0.100-preview-010184'
   - script: dotnet publish OffUploader.Console -c $(buildConfiguration) -f $(framework) -r $(rid)
     displayName: 'dotnet publish OffUploader.Console $(buildConfiguration) $(rid)'
   - task: PublishPipelineArtifact@0
