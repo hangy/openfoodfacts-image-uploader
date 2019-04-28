@@ -8,29 +8,27 @@ variables:
   buildConfiguration: 'Release'
   framework: 'netcoreapp3.0'
 
-jobs:
-- job: Build
-  strategy:
-    matrix:
-      Windows_x64:
-        rid: win-x64
-      Windows_x86:
-        rid: win-x86
-      Windows_arm:
-        rid: win-arm
-      Windows_arm64:
-        rid: win-arm64
-      Linux_x64:
-        rid: linux-x64
-      Linux_musl_x64:
-        rid: linux-musl-x64
-      Linux_arm:
-        rid: linux-arm
-      Linux_tizen:
-        rid: tizen
-      Linux_osx:
-        rid: osx-x64
-  steps:
+matrix:
+  Windows_x64:
+    rid: win-x64
+  Windows_x86:
+    rid: win-x86
+  Windows_arm:
+    rid: win-arm
+  Windows_arm64:
+    rid: win-arm64
+  Linux_x64:
+    rid: linux-x64
+  Linux_musl_x64:
+    rid: linux-musl-x64
+  Linux_arm:
+    rid: linux-arm
+  Linux_tizen:
+    rid: tizen
+  Linux_osx:
+    rid: osx-x64
+
+steps:
   - task: DotNetCoreInstaller@0
     inputs:
       version: '3.0.100-preview-010184'
