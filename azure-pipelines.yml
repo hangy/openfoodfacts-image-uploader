@@ -9,7 +9,7 @@ variables:
   framework: 'netcoreapp3.0'
 
 jobs:
-- job: Build each platform
+- job: Build
   strategy:
     matrix:
       Windows_x64:
@@ -34,10 +34,8 @@ jobs:
   - task: DotNetCoreInstaller@0
     inputs:
       version: '3.0.100-preview-010184' # replace this value with the version that you need for your project
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: 'dotnet build $(buildConfiguration)'
   - script: dotnet publish OffUploader.Console -c $(buildConfiguration) -f $(framework) -r $(rid)
-    displayName: 'dotnet publis OffUploader.Console $(buildConfiguration) $(rid)'
+    displayName: 'dotnet publish OffUploader.Console $(buildConfiguration) $(rid)'
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: '$(framework)_$(rid)_$(buildConfiguration)'
