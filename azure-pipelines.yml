@@ -19,8 +19,6 @@ strategy:
       rid: 'linux-musl-x64'
     Linux_arm:
       rid: 'linux-arm'
-    Linux_tizen:
-      rid: 'tizen'
     Linux_osx:
       rid: 'osx-x64'
 
