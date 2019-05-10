@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2" />
     <PackageReference Include="Nerdbank.GitVersioning">
-      <Version>2.3.138</Version>
+      <Version>2.3.151</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Roslyn.System.IO.Abstractions.Analyzers" Version="4.0.3">
