@@ -46,6 +46,10 @@
             {
                 await this.mediator.Send(new UploadDirectoryRequest(request.Settings, this.fileSystem.Path.GetFileName(args[0]), args[0]), cancellationToken).ConfigureAwait(false);
             }
+            else if (!firstIsCode && args.Skip(1).All(f => this.fileSystem.File.Exists(f)))
+            {
+                await this.mediator.Send(new ParseBarcodesAndUploadFiles(request.Settings, args.Skip(1).Where(f => this.fileSystem.File.Exists(f)).ToList()), cancellationToken).ConfigureAwait(false);
+            }
             else
             {
                 throw new ArgumentException($"Invalid arguments. Please specify at least a product code and file or directory.", nameof(request));

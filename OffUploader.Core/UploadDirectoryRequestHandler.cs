@@ -3,7 +3,6 @@
     using MediatR;
     using OffUploader.Core.Logging;
     using System.Diagnostics;
-    using System.IO;
     using System.IO.Abstractions;
     using System.Linq;
     using System.Threading;
@@ -26,20 +25,14 @@
         public async Task<Unit> Handle(UploadDirectoryRequest request, CancellationToken cancellationToken)
         {
             var path = request.Path;
-            var jpgs = this.fileSystem.Directory.GetJpegs(path);
+            var jpgs = this.fileSystem.Directory.GetJpegs(path).ToList();
             var code = request.Code;
             var settings = request.Settings;
             log.Info("Uploading JPEGs from {Directory} to product {Code}", path, code);
-            var uploaded = 0;
             var stopwatch = Stopwatch.StartNew();
-            foreach (var jpg in jpgs)
-            {
-                await this.mediator.Send(new UploadFileRequest(settings, code, jpg), cancellationToken).ConfigureAwait(false);
-                ++uploaded;
-            }
-
+            await this.mediator.Send(new UploadFilesToCodeRequest(settings, code, jpgs), cancellationToken).ConfigureAwait(false);
             stopwatch.Stop();
-            log.Info("Uploaded {UploadedImagesCount} JPEGs from {Directory} to product {Code} in {Duration}", uploaded, path, code, stopwatch.Elapsed);
+            log.Info("Uploaded JPEGs from {Directory} to product {Code} in {Duration}", path, code, stopwatch.Elapsed);
             return Unit.Value;
         }
     }
