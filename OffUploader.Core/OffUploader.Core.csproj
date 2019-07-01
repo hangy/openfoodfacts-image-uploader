@@ -10,7 +10,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MediatR" Version="7.0.0" />
-    <PackageReference Include="Nager.ArticleNumber" Version="1.0.4" />
+    <PackageReference Include="Nager.ArticleNumber" Version="1.0.5" />
     <PackageReference Include="Refit" Version="4.7.9" />
     <PackageReference Include="SimpleInjector" Version="4.6.0" />
     <PackageReference Include="System.IO.Abstractions" Version="6.0.14" />
