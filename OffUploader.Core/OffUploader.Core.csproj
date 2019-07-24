@@ -17,8 +17,4 @@
     <PackageReference Include="ZXing.Net.Bindings.Magick" Version="0.16.6" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="2.3.151" />
-  </ItemGroup>
-
 </Project>
