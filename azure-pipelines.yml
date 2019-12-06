@@ -24,7 +24,7 @@ strategy:
 
 variables:
   buildConfiguration: 'Release'
-  framework: 'netcoreapp3.0'
+  framework: 'netcoreapp3.1'
 
 steps:
   - task: DotNetCoreInstaller@0
