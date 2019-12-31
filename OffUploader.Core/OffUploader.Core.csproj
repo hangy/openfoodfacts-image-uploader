@@ -9,7 +9,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="MediatR" Version="8.0.0" />
     <PackageReference Include="Nager.ArticleNumber" Version="1.0.5" />
     <PackageReference Include="Refit" Version="5.0.23" />
     <PackageReference Include="SimpleInjector" Version="4.8.1" />
