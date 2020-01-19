@@ -27,12 +27,12 @@ variables:
   framework: 'netcoreapp3.1'
 
 steps:
-  - task: DotNetCoreInstaller@0
+  - task: DotNetCoreInstaller@1
     inputs:
-      version: '3.1.100'
+      version: '3.1.101'
   - script: dotnet publish OffUploader.Console -c $(buildConfiguration) -f $(framework) -r $(rid)
     displayName: 'dotnet publish OffUploader.Console $(buildConfiguration) $(rid)'
-  - task: PublishPipelineArtifact@0
+  - task: PublishPipelineArtifact@1
     inputs:
       artifactName: '$(framework)_$(rid)_$(buildConfiguration)'
       targetPath: 'OffUploader.Console/bin/$(buildConfiguration)/$(framework)/$(rid)/publish'
