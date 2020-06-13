@@ -1,17 +1,17 @@
 ﻿namespace OffUploader.Console
 {
+    using System;
+    using System.Threading.Tasks;
     using MediatR;
     using Microsoft.Extensions.Configuration;
     using OffUploader.Core;
     using Serilog;
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
-    using System;
-    using System.Threading.Tasks;
 
     internal static class Program
     {
-        internal async static Task<int> Main(string[] args)
+        internal static async Task<int> Main(string[] args)
         {
             try
             {
@@ -27,7 +27,7 @@
 
                 var settings = configuration.GetSection("ProductOpener").Get<ProductOpenerSettings>();
 
-                var container = new Container { Options = { DefaultScopedLifestyle = new AsyncScopedLifestyle() } };
+                using var container = new Container { Options = { DefaultScopedLifestyle = new AsyncScopedLifestyle() } };
                 OffUploaderBootstrapper.Bootstrap(container);
                 container.Verify();
                 var mediator = container.GetInstance<IMediator>();

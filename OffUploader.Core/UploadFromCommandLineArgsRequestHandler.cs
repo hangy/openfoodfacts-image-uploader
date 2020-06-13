@@ -1,11 +1,11 @@
 ﻿namespace OffUploader.Core
 {
-    using MediatR;
     using System;
     using System.IO.Abstractions;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using MediatR;
 
     public class UploadFromCommandLineArgsRequestHandler : IRequestHandler<UploadFromCommandLineArgsRequest>
     {
@@ -15,11 +15,21 @@
 
         public UploadFromCommandLineArgsRequestHandler(IFileSystem fileSystem, IMediator mediator)
         {
-            this.fileSystem = fileSystem;
-            this.mediator = mediator;
+            this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task<Unit> Handle(UploadFromCommandLineArgsRequest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(UploadFromCommandLineArgsRequest request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            return this.HandleImpl(request, cancellationToken);
+        }
+
+        private async Task<Unit> HandleImpl(UploadFromCommandLineArgsRequest request, CancellationToken cancellationToken)
         {
             var args = request.CommandLineArguments;
 
@@ -52,7 +62,7 @@
             }
             else
             {
-                throw new ArgumentException($"Invalid arguments. Please specify at least a product code and file or directory.", nameof(request));
+                throw new ArgumentException("Invalid arguments. Please specify at least a product code and file or directory.", nameof(request));
             }
 
             return Unit.Value;

@@ -1,17 +1,17 @@
 ﻿namespace OffUploader.Core
 {
-    using MediatR;
-    using OffUploader.Core.Logging;
-    using Refit;
     using System;
     using System.Diagnostics;
     using System.IO.Abstractions;
     using System.Threading;
     using System.Threading.Tasks;
+    using MediatR;
+    using OffUploader.Core.Logging;
+    using Refit;
 
     public class UploadFileRequestHandler : IRequestHandler<UploadFileRequest>
     {
-        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
+        private readonly static ILog log = LogProvider.GetCurrentClassLogger();
 
         private readonly IFileSystem fileSystem;
 
@@ -19,11 +19,21 @@
 
         public UploadFileRequestHandler(RestServiceFactory restServiceFactory, IFileSystem fileSystem)
         {
-            this.restServiceFactory = restServiceFactory;
-            this.fileSystem = fileSystem;
+            this.restServiceFactory = restServiceFactory ?? throw new ArgumentNullException(nameof(restServiceFactory));
+            this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
         }
 
-        public async Task<Unit> Handle(UploadFileRequest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(UploadFileRequest request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            return this.HandleImpl(request);
+        }
+
+        private async Task<Unit> HandleImpl(UploadFileRequest request)
         {
             var imageService = this.restServiceFactory.GetService<IImageService>(request.Settings);
             using (var stream = this.fileSystem.File.OpenRead(request.Path))
@@ -39,7 +49,7 @@
                 {
                     log.Info("Uploaded {File} to product {Code} in {Duration}: {@UploadResult}", path, code, stopwatch.Elapsed, result);
                 }
-                else if  (result.ImgId == -3)
+                else if (result.ImgId == -3)
                 {
                     log.Info("Image {File} was already uploaded to {Code} before. Upload took {Duration}: {@UploadResult}", path, code, stopwatch.Elapsed, result);
                 }

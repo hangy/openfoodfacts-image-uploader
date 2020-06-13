@@ -1,38 +1,44 @@
 ﻿namespace OffUploader.Core
 {
-    using ImageMagick;
-    using MediatR;
-    using OffUploader.Core.Logging;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO.Abstractions;
     using System.Threading;
     using System.Threading.Tasks;
+    using ImageMagick;
+    using MediatR;
+    using OffUploader.Core.Logging;
     using ZXing;
     using ZXing.Magick;
 
     public class ParseBarcodesAndUploadFilesHandler : IRequestHandler<ParseBarcodesAndUploadFiles>
     {
-        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
+        private readonly static ILog log = LogProvider.GetCurrentClassLogger();
 
         private readonly IBarcodeReader barcodeReader;
-
-        private readonly IFileSystem fileSystem;
 
         private readonly IMagickFactory magickFactory;
 
         private readonly IMediator mediator;
 
-        public ParseBarcodesAndUploadFilesHandler(IBarcodeReader barcodeReader, IFileSystem fileSystem, IMagickFactory magickFactory, IMediator mediator)
+        public ParseBarcodesAndUploadFilesHandler(IBarcodeReader barcodeReader, IMagickFactory magickFactory, IMediator mediator)
         {
-            this.barcodeReader = barcodeReader;
-            this.fileSystem = fileSystem;
-            this.magickFactory = magickFactory;
-            this.mediator = mediator;
+            this.barcodeReader = barcodeReader ?? throw new ArgumentNullException(nameof(barcodeReader));
+            this.magickFactory = magickFactory ?? throw new ArgumentNullException(nameof(magickFactory));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task<Unit> Handle(ParseBarcodesAndUploadFiles request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(ParseBarcodesAndUploadFiles request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            return this.HandleImpl(request, cancellationToken);
+        }
+
+        private async Task<Unit> HandleImpl(ParseBarcodesAndUploadFiles request, CancellationToken cancellationToken)
         {
             var jpgs = request.Paths;
             string? code = null;

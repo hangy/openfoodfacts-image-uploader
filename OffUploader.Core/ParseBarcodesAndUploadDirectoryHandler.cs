@@ -1,10 +1,11 @@
 ﻿namespace OffUploader.Core
 {
-    using MediatR;
+    using System;
     using System.IO.Abstractions;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using MediatR;
 
     public class ParseBarcodesAndUploadDirectoryHandler : IRequestHandler<ParseBarcodesAndUploadDirectory>
     {
@@ -14,12 +15,17 @@
 
         public ParseBarcodesAndUploadDirectoryHandler(IFileSystem fileSystem, IMediator mediator)
         {
-            this.fileSystem = fileSystem;
-            this.mediator = mediator;
+            this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public Task<Unit> Handle(ParseBarcodesAndUploadDirectory request, CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var path = request.Path;
             var jpgs = this.fileSystem.Directory.GetJpegs(path).ToList();
             return this.mediator.Send(new ParseBarcodesAndUploadFiles(request.Settings, jpgs), cancellationToken);

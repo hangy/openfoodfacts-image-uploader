@@ -1,23 +1,34 @@
 ﻿namespace OffUploader.Core
 {
-    using MediatR;
-    using OffUploader.Core.Logging;
+    using System;
     using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
+    using MediatR;
+    using OffUploader.Core.Logging;
 
     public class UploadFilesToCodeRequestHandler : IRequestHandler<UploadFilesToCodeRequest>
     {
-        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
+        private readonly static ILog log = LogProvider.GetCurrentClassLogger();
 
         private readonly IMediator mediator;
 
         public UploadFilesToCodeRequestHandler(IMediator mediator)
         {
-            this.mediator = mediator;
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task<Unit> Handle(UploadFilesToCodeRequest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(UploadFilesToCodeRequest request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            return this.HandleImpl(request, cancellationToken);
+        }
+
+        private async Task<Unit> HandleImpl(UploadFilesToCodeRequest request, CancellationToken cancellationToken)
         {
             var settings = request.Settings;
             var code = request.Code;

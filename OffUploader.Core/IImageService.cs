@@ -1,7 +1,7 @@
 ﻿namespace OffUploader.Core
 {
-    using Refit;
     using System.Threading.Tasks;
+    using Refit;
 
     public interface IImageService
     {

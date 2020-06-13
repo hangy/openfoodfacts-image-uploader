@@ -1,16 +1,17 @@
 ﻿namespace OffUploader.Core
 {
-    using MediatR;
-    using OffUploader.Core.Logging;
+    using System;
     using System.Diagnostics;
     using System.IO.Abstractions;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using MediatR;
+    using OffUploader.Core.Logging;
 
     public class UploadDirectoryRequestHandler : IRequestHandler<UploadDirectoryRequest>
     {
-        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
+        private readonly static ILog log = LogProvider.GetCurrentClassLogger();
 
         private readonly IFileSystem fileSystem;
 
@@ -18,11 +19,21 @@
 
         public UploadDirectoryRequestHandler(IFileSystem fileSystem, IMediator mediator)
         {
-            this.fileSystem = fileSystem;
-            this.mediator = mediator;
+            this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task<Unit> Handle(UploadDirectoryRequest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(UploadDirectoryRequest request, CancellationToken cancellationToken)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            return this.HandleImpl(request, cancellationToken);
+        }
+
+        private async Task<Unit> HandleImpl(UploadDirectoryRequest request, CancellationToken cancellationToken)
         {
             var path = request.Path;
             var jpgs = this.fileSystem.Directory.GetJpegs(path).ToList();

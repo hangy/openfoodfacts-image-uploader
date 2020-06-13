@@ -1,8 +1,8 @@
 ﻿namespace OffUploader.Core
 {
-    using Refit;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Refit;
 
     public interface ILoginService
     {

@@ -1,9 +1,5 @@
 ﻿namespace OffUploader.Core
 {
-    using ImageMagick;
-    using MediatR;
-    using MediatR.Pipeline;
-    using SimpleInjector;
     using System;
     using System.Collections.Generic;
     using System.IO.Abstractions;
@@ -11,12 +7,21 @@
     using System.Net;
     using System.Net.Http;
     using System.Reflection;
+    using ImageMagick;
+    using MediatR;
+    using MediatR.Pipeline;
+    using SimpleInjector;
     using ZXing;
 
     public static class OffUploaderBootstrapper
     {
         public static void Bootstrap(Container container)
         {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
             container.Register<IFileSystem, FileSystem>(Lifestyle.Singleton);
 
             BootstrapMediator(container);
