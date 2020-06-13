@@ -29,7 +29,7 @@ variables:
 steps:
   - task: DotNetCoreInstaller@1
     inputs:
-      version: '3.1.201'
+      version: '3.1.301'
   - script: dotnet publish OffUploader.Console -c $(buildConfiguration) -f $(framework) -r $(rid)
     displayName: 'dotnet publish OffUploader.Console $(buildConfiguration) $(rid)'
   - task: PublishPipelineArtifact@1
