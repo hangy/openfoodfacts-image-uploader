@@ -12,7 +12,7 @@
     <PackageReference Include="MediatR" Version="8.1.0" />
     <PackageReference Include="Nager.ArticleNumber" Version="1.0.5" />
     <PackageReference Include="NETStandard.Library" Version="2.1.0-prerelease.18603.1" />
-    <PackageReference Include="Refit" Version="5.1.67" />
+    <PackageReference Include="Refit" Version="5.2.1" />
     <PackageReference Include="SimpleInjector" Version="5.0.3" />
     <PackageReference Include="System.IO.Abstractions" Version="12.1.9" />
     <PackageReference Include="ZXing.Net.Bindings.Magick" Version="0.16.7" />
