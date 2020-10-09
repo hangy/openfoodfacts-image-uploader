@@ -9,7 +9,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MediatR" Version="8.2.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Nager.ArticleNumber" Version="1.0.5" />
     <PackageReference Include="NETStandard.Library" Version="2.1.0-prerelease.18603.1" />
     <PackageReference Include="Refit" Version="5.2.1" />
