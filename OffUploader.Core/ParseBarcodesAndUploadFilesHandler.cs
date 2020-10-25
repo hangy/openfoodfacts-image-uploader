@@ -15,16 +15,16 @@
     {
         private readonly static ILog log = LogProvider.GetCurrentClassLogger();
 
-        private readonly IBarcodeReader barcodeReader;
+        private readonly IBarcodeReaderGeneric barcodeReader;
 
-        private readonly IMagickFactory magickFactory;
+        private readonly IMagickImageFactory<byte> magickImageFactory;
 
         private readonly IMediator mediator;
 
-        public ParseBarcodesAndUploadFilesHandler(IBarcodeReader barcodeReader, IMagickFactory magickFactory, IMediator mediator)
+        public ParseBarcodesAndUploadFilesHandler(IBarcodeReaderGeneric barcodeReader, IMagickImageFactory<byte> magickImageFactory, IMediator mediator)
         {
             this.barcodeReader = barcodeReader ?? throw new ArgumentNullException(nameof(barcodeReader));
-            this.magickFactory = magickFactory ?? throw new ArgumentNullException(nameof(magickFactory));
+            this.magickImageFactory = magickImageFactory ?? throw new ArgumentNullException(nameof(magickImageFactory));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
@@ -99,9 +99,9 @@
         private Result[] ReadBarcodes(string path)
         {
             log.Trace("Opening image {File} with ImageMagick", path);
-            using var image = this.magickFactory.CreateImage(path);
+            using var image = this.magickImageFactory.Create(path);
             log.Trace("Reading barcode of image {File}", path);
-            var luminanceSource = new MagickImageLuminanceSource((MagickImage)image);
+            var luminanceSource = new MagickImageLuminanceSource(image);
             var barcodes = this.barcodeReader.DecodeMultiple(luminanceSource);
             log.Debug("Barcodes for {File} are {@Barcodes}", path, barcodes);
             return barcodes;

@@ -27,8 +27,8 @@
             BootstrapMediator(container);
             BootstrapRefit(container);
 
-            container.Register<IMagickFactory, MagickFactory>(Lifestyle.Singleton);
-            container.Register<IBarcodeReader>(() => new BarcodeReader() { AutoRotate = true, TryInverted = true, Options = { TryHarder = true } }, Lifestyle.Singleton);
+            container.Register<IMagickImageFactory<byte>, MagickImageFactory>(Lifestyle.Singleton);
+            container.Register<IBarcodeReaderGeneric>(() => new BarcodeReaderGeneric() { AutoRotate = true, TryInverted = true, Options = { TryHarder = true } }, Lifestyle.Singleton);
         }
 
         // Thanks! https://github.com/haison8x/MediatR.SimpleInjector/blob/master/src/MediatR.SimpleInjector/ContainerExtension.cs
