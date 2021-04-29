@@ -1,0 +1,21 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: System.IO.Abstractions
+    versions:
+    - "> 9.0.4, < 9.1"
+  - dependency-name: Refit
+    versions:
+    - 6.0.1
+    - 6.0.15
+    - 6.0.24
+    - 6.0.8
+  - dependency-name: System.IO.Abstractions
+    versions:
+    - 13.2.10
