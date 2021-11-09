@@ -11,6 +11,8 @@
 
     public class UploadFileRequestHandler : IRequestHandler<UploadFileRequest>
     {
+        private const string uploadedDirectory = "Uploaded";
+
         private readonly static ILog log = LogProvider.GetCurrentClassLogger();
 
         private readonly IFileSystem fileSystem;
@@ -49,7 +51,7 @@
                 {
                     log.Info("Uploaded {File} to product {Code} in {Duration}: {@UploadResult}", path, code, stopwatch.Elapsed, result);
                 }
-                else if (result.ImgId == -3)
+                else if (result.ImgId == "-3")
                 {
                     log.Info("Image {File} was already uploaded to {Code} before. Upload took {Duration}: {@UploadResult}", path, code, stopwatch.Elapsed, result);
                 }
@@ -58,6 +60,9 @@
                     log.Error("Could not upload {File} to product {Code} in {Duration}: {@UploadResult}", path, code, stopwatch.Elapsed, result);
                     throw new InvalidOperationException(result.Error ?? result.Status ?? "Unknown Error");
                 }
+
+                var uploadedPath = this.fileSystem.Path.Combine(this.fileSystem.Path.GetDirectoryName(this.fileSystem.Path.GetDirectoryName(path)), uploadedDirectory);
+                this.fileSystem.File.Move(path, uploadedDirectory);
             }
 
             return Unit.Value;

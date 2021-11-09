@@ -24,13 +24,13 @@ strategy:
 
 variables:
   buildConfiguration: 'Release'
-  framework: 'net5.0'
+  framework: 'net6.0'
 
 steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '5.0.100'
+    version: '6.0.100'
 
 - script: dotnet publish OffUploader.Console -c $(buildConfiguration) -f $(framework) -r $(rid)
   displayName: 'dotnet publish OffUploader.Console $(buildConfiguration) $(rid)'

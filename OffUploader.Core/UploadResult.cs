@@ -4,7 +4,7 @@
     {
         public string? Status { get; set; }
 
-        public int? ImgId { get; set; }
+        public string? ImgId { get; set; }
 
         public string? Error { get; set; }
 
