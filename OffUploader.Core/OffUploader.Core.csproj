@@ -13,7 +13,7 @@
     <PackageReference Include="Nager.ArticleNumber" Version="1.0.7" />
     <PackageReference Include="Refit" Version="6.5.1" />
     <PackageReference Include="SimpleInjector" Version="5.4.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="19.2.15" />
+    <PackageReference Include="System.IO.Abstractions" Version="19.2.16" />
     <PackageReference Include="ZXing.Net.Bindings.Magick" Version="0.16.13" />
   </ItemGroup>
 
