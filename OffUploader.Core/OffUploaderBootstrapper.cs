@@ -51,8 +51,6 @@
             container.Collection.Register(typeof(IPipelineBehavior<,>), Enumerable.Empty<Type>());
             container.Collection.Register(typeof(IRequestPreProcessor<>), Enumerable.Empty<Type>());
             container.Collection.Register(typeof(IRequestPostProcessor<,>), Enumerable.Empty<Type>());
-
-            container.Register(() => new ServiceFactory(container.GetInstance), Lifestyle.Singleton);
         }
 
         private static void BootstrapRefit(Container container)
