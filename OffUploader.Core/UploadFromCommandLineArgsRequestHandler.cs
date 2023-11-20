@@ -19,7 +19,7 @@
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public Task<Unit> Handle(UploadFromCommandLineArgsRequest request, CancellationToken cancellationToken)
+        public Task Handle(UploadFromCommandLineArgsRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
@@ -29,7 +29,7 @@
             return this.HandleImpl(request, cancellationToken);
         }
 
-        private async Task<Unit> HandleImpl(UploadFromCommandLineArgsRequest request, CancellationToken cancellationToken)
+        private async Task HandleImpl(UploadFromCommandLineArgsRequest request, CancellationToken cancellationToken)
         {
             var args = request.CommandLineArguments;
 
@@ -64,8 +64,6 @@
             {
                 throw new ArgumentException("Invalid arguments. Please specify at least a product code and file or directory.", nameof(request));
             }
-
-            return Unit.Value;
         }
     }
 }

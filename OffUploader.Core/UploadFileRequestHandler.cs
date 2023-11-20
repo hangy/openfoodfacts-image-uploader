@@ -25,7 +25,7 @@
             this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
         }
 
-        public Task<Unit> Handle(UploadFileRequest request, CancellationToken cancellationToken)
+        public Task Handle(UploadFileRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
@@ -35,7 +35,7 @@
             return this.HandleImpl(request);
         }
 
-        private async Task<Unit> HandleImpl(UploadFileRequest request)
+        private async Task HandleImpl(UploadFileRequest request)
         {
             var imageService = this.restServiceFactory.GetService<IImageService>(request.Settings);
             using (var stream = this.fileSystem.File.OpenRead(request.Path))
@@ -61,11 +61,9 @@
                     throw new InvalidOperationException(result.Error ?? result.Status ?? "Unknown Error");
                 }
 
-                var uploadedPath = this.fileSystem.Path.Combine(this.fileSystem.Path.GetDirectoryName(this.fileSystem.Path.GetDirectoryName(path)), uploadedDirectory);
+                _ = this.fileSystem.Path.Combine(this.fileSystem.Path.GetDirectoryName(this.fileSystem.Path.GetDirectoryName(path)!), uploadedDirectory);
                 this.fileSystem.File.Move(path, uploadedDirectory);
             }
-
-            return Unit.Value;
         }
     }
 }

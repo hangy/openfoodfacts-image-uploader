@@ -19,7 +19,7 @@
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public Task<Unit> Handle(ParseBarcodesAndUploadDirectory request, CancellationToken cancellationToken)
+        public Task Handle(ParseBarcodesAndUploadDirectory request, CancellationToken cancellationToken)
         {
             if (request == null)
             {

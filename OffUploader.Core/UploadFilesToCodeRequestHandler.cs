@@ -18,7 +18,7 @@
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public Task<Unit> Handle(UploadFilesToCodeRequest request, CancellationToken cancellationToken)
+        public Task Handle(UploadFilesToCodeRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
@@ -28,7 +28,7 @@
             return this.HandleImpl(request, cancellationToken);
         }
 
-        private async Task<Unit> HandleImpl(UploadFilesToCodeRequest request, CancellationToken cancellationToken)
+        private async Task HandleImpl(UploadFilesToCodeRequest request, CancellationToken cancellationToken)
         {
             var settings = request.Settings;
             var code = request.Code;
@@ -44,7 +44,6 @@
 
             stopwatch.Stop();
             log.Info("Uploaded {UploadedImagesCount} JPEGs from {@Paths} to product {Code} in {Duration}", uploaded, jpgs, code, stopwatch.Elapsed);
-            return Unit.Value;
         }
     }
 }

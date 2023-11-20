@@ -23,7 +23,7 @@
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public Task<Unit> Handle(UploadDirectoryRequest request, CancellationToken cancellationToken)
+        public Task Handle(UploadDirectoryRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
@@ -33,7 +33,7 @@
             return this.HandleImpl(request, cancellationToken);
         }
 
-        private async Task<Unit> HandleImpl(UploadDirectoryRequest request, CancellationToken cancellationToken)
+        private async Task HandleImpl(UploadDirectoryRequest request, CancellationToken cancellationToken)
         {
             var path = request.Path;
             var jpgs = this.fileSystem.Directory.GetJpegs(path).ToList();
@@ -44,7 +44,6 @@
             await this.mediator.Send(new UploadFilesToCodeRequest(settings, code, jpgs), cancellationToken).ConfigureAwait(false);
             stopwatch.Stop();
             log.Info("Uploaded JPEGs from {Directory} to product {Code} in {Duration}", path, code, stopwatch.Elapsed);
-            return Unit.Value;
         }
     }
 }

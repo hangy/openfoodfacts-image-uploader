@@ -28,7 +28,7 @@
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public Task<Unit> Handle(ParseBarcodesAndUploadFiles request, CancellationToken cancellationToken)
+        public Task Handle(ParseBarcodesAndUploadFiles request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
@@ -38,7 +38,7 @@
             return this.HandleImpl(request, cancellationToken);
         }
 
-        private async Task<Unit> HandleImpl(ParseBarcodesAndUploadFiles request, CancellationToken cancellationToken)
+        private async Task HandleImpl(ParseBarcodesAndUploadFiles request, CancellationToken cancellationToken)
         {
             var jpgs = request.Paths;
             string? code = null;
@@ -71,7 +71,6 @@
             }
 
             await this.mediator.Send(new UploadFilesToCodeRequest(request.Settings, code, jpgs), cancellationToken).ConfigureAwait(false);
-            return Unit.Value;
         }
 
         private static bool TryGetFirstCode(IEnumerable<Result> barcodes, out string code)

@@ -18,7 +18,7 @@
             this.restServiceFactory = restServiceFactory ?? throw new ArgumentNullException(nameof(restServiceFactory));
         }
 
-        public async Task<Unit> Handle(LoginRequest request, CancellationToken cancellationToken)
+        public async Task Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
@@ -42,7 +42,6 @@
 
             await loginService.Login(data).ConfigureAwait(false);
             log.Info("Login successful");
-            return Unit.Value;
         }
     }
 }
