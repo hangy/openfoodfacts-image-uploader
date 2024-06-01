@@ -17,7 +17,7 @@
     <PackageReference Include="Refit" Version="7.0.0" />
     <PackageReference Include="SimpleInjector" Version="5.4.6" />
     <PackageReference Include="System.IO.Abstractions" Version="21.0.2" />
-    <PackageReference Include="ZXing.Net.Bindings.Magick" Version="0.16.13" />
+    <PackageReference Include="ZXing.Net.Bindings.Magick" Version="0.16.14" />
   </ItemGroup>
 
 </Project>
