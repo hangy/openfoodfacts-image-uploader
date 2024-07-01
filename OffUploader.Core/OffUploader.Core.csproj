@@ -12,7 +12,7 @@
     <PackageReference Include="Magick.NET-Q8-x64" Version="13.9.1" />
     <PackageReference Include="Magick.NET.Core" Version="13.9.1" />
     <PackageReference Include="Magick.NET.SystemDrawing" Version="7.2.6" />
-    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="MediatR" Version="12.3.0" />
     <PackageReference Include="Nager.ArticleNumber" Version="1.0.7" />
     <PackageReference Include="Refit" Version="7.0.0" />
     <PackageReference Include="SimpleInjector" Version="5.4.6" />
